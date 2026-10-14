@@ -8,13 +8,15 @@ import { formatCount } from "@/src/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({ params }: { params: { handle: string } }) {
+export async function generateMetadata(props: { params: Promise<{ handle: string }> }) {
+  const params = await props.params;
   const channel = await prisma.channel.findUnique({ where: { handle: params.handle } });
   if (!channel) return { title: "Channel not found" };
   return { title: `${channel.title} – MyTube`, description: channel.description ?? "" };
 }
 
-export default async function ChannelPage({ params }: { params: { handle: string } }) {
+export default async function ChannelPage(props: { params: Promise<{ handle: string }> }) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
 
   const channel = await prisma.channel.findUnique({
@@ -27,10 +29,11 @@ export default async function ChannelPage({ params }: { params: { handle: string
   if (!channel) notFound();
 
   const subscriberCount = channel.subscribedBy.length;
-  const isSubscribed = session?.user?.id
-    ? channel.subscribedBy.some((s: { subscriberId: string }) => s.subscriberId === session.user.id)
+  const currentUserId = session?.user?.id;
+  const isSubscribed = currentUserId
+    ? channel.subscribedBy.some((s: { subscriberId: string }) => s.subscriberId === currentUserId)
     : false;
-  const isOwner = session?.user?.id === channel.ownerId;
+  const isOwner = Boolean(currentUserId && currentUserId === channel.ownerId);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
