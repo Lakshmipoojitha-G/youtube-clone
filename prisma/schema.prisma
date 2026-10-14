@@ -62,29 +62,35 @@ model User {
   channels      Channel[]
   subscriptions Subscription[]  @relation("Subscriber")
   notifications Notification[]
+  comments      Comment[]
+  reactions     VideoReaction[]
+  commentLikes  CommentLike[]
+  history       WatchHistory[]
+  playlists     Playlist[]
 }
 
 model Profile {
-  id         String  @id @default(cuid())
-  bio        String? @db.Text
-  website    String?
-  location   String?
-  userId     String  @unique
-  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id       String  @id @default(cuid())
+  bio      String? @db.Text
+  website  String?
+  location String?
+  userId   String  @unique
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Channel {
-  id            String         @id @default(cuid())
-  handle        String         @unique
-  title         String
-  description   String?        @db.Text
-  bannerImage   String?
-  avatarImage   String?
-  ownerId       String
-  owner         User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  subscribedBy  Subscription[]
+  id           String         @id @default(cuid())
+  handle       String         @unique
+  title        String
+  description  String?        @db.Text
+  bannerImage  String?
+  avatarImage  String?
+  ownerId      String
+  owner        User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  subscribedBy Subscription[]
+  videos       Video[]
 }
 
 model Subscription {
@@ -107,4 +113,143 @@ model Notification {
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────────────────────
+// Video, engagement and playlists
+// ─────────────────────────────────────────────
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  UNLISTED
+}
+
+enum VideoStatus {
+  UPLOADING
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum ReactionType {
+  LIKE
+  DISLIKE
+}
+
+// Owner: Member 2 (upload / Studio)
+model Video {
+  id           String      @id @default(cuid())
+  title        String
+  description  String?     @db.Text
+  videoUrl     String
+  thumbnailUrl String?
+  duration     Int? // seconds
+  status       VideoStatus @default(PROCESSING)
+  visibility   Visibility  @default(PUBLIC)
+  category     String?
+  tags         String[]
+  views        Int         @default(0)
+  channelId    String
+  channel      Channel     @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  comments      Comment[]
+  reactions     VideoReaction[]
+  history       WatchHistory[]
+  playlistItems PlaylistVideo[]
+
+  @@index([channelId])
+  @@index([createdAt])
+  @@index([visibility, status])
+}
+
+// Owner: Member 3 (watch page and engagement)
+model Comment {
+  id        String   @id @default(cuid())
+  text      String   @db.Text
+  videoId   String
+  userId    String
+  parentId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  video   Video         @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent  Comment?      @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[]     @relation("CommentReplies")
+  likes   CommentLike[]
+
+  @@index([videoId, createdAt])
+  @@index([parentId])
+}
+
+model VideoReaction {
+  id        String       @id @default(cuid())
+  userId    String
+  videoId   String
+  type      ReactionType
+  createdAt DateTime     @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, videoId])
+  @@index([videoId, type])
+}
+
+model CommentLike {
+  id        String   @id @default(cuid())
+  userId    String
+  commentId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, commentId])
+}
+
+model WatchHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  videoId   String
+  progress  Int      @default(0) // seconds watched, used to resume
+  watchedAt DateTime @default(now()) @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, videoId])
+  @@index([userId, watchedAt])
+}
+
+// Owner: Member 4 (discovery and playlists)
+model Playlist {
+  id          String     @id @default(cuid())
+  title       String
+  description String?    @db.Text
+  visibility  Visibility @default(PRIVATE)
+  ownerId     String
+  owner       User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  items PlaylistVideo[]
+
+  @@index([ownerId])
+}
+
+model PlaylistVideo {
+  id         String   @id @default(cuid())
+  playlistId String
+  videoId    String
+  position   Int      @default(0)
+  addedAt    DateTime @default(now())
+
+  playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  video    Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@unique([playlistId, videoId])
+  @@index([playlistId, position])
 }
