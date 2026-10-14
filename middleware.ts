@@ -1,17 +1,27 @@
 // middleware.ts
 import { withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
 
-export default withAuth({
-  callbacks: {
-    authorized: ({ token }) => !!token,
+export default withAuth(
+  function middleware(req) {
+    return NextResponse.next();
   },
-});
+  {
+    callbacks: {
+      authorized: ({ token }) => !!token,
+    },
+  }
+);
 
 export const config = {
   matcher: [
     "/channel/:path*",
-    "/subscriptions/:path*",
-    "/api/:path*",
-    // add more protected routes as needed
+    "/subscriptions",
+    "/profile",
+    "/settings/:path*",
+    "/studio/:path*",
+    "/history",
+    "/liked",
+    "/playlists/:path*",
   ],
 };
