@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   const body = await req.text(); // raw body is required for signature check
   let event;
   try {
-    event = mux.webhooks.unwrap(body, req.headers);
+    event = await mux.webhooks.unwrap(body, req.headers);
   } catch {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }

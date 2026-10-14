@@ -23,7 +23,7 @@ export async function POST(req: Request) {
         cors_origin: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
         new_asset_settings: { playback_policy: ["public"], passthrough: id },
       });
-      uploadUrl = upload.url;
+      uploadUrl = upload.url ?? "";
       muxUploadId = upload.id;
     } else {
       uploadUrl = `/api/studio/videos/${id}/file`; // dev mode: save locally
