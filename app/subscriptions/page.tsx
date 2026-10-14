@@ -1,6 +1,6 @@
 // app/subscriptions/page.tsx
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/src/lib/auth";
+import { authOptions } from "@/server/auth";
 import { prisma } from "@/src/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";

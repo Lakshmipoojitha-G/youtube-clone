@@ -1,7 +1,7 @@
 // app/page.tsx
 import Link from "next/link";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/src/lib/auth";
+import { authOptions } from "@/server/auth";
 
 export const metadata = {
   title: "MyTube – Home",

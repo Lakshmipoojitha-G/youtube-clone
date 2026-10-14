@@ -2,7 +2,7 @@
 import { prisma } from "@/src/lib/prisma";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/src/lib/auth";
+import { authOptions } from "@/server/auth";
 import SubscribeButton from "@/src/components/molecules/SubscribeButton";
 import { formatCount } from "@/src/lib/utils";
 

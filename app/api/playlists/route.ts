@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PlaylistService } from '@/services/playlist.service';
+import { PlaylistService } from '@/server/playlist.service';
 
 export const dynamic = 'force-dynamic';
 

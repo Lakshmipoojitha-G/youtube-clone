@@ -1,4 +1,4 @@
-// src/lib/auth.ts
+// server/auth.ts
 import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";

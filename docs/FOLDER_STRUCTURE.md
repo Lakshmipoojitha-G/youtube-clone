@@ -12,7 +12,7 @@ One repo, one project. Each member owns their folders. Shared files go through t
 ## M1 - Foundation, auth, users
 
 - `src/components/` (atoms, molecules, organisms, templates, providers)
-- `src/lib/` (`auth.ts`, `prisma.ts`, `utils.ts`)
+- `server/auth.ts`, `src/lib/` (`prisma.ts`, `utils.ts`)
 - `app/auth/`, `app/channel/`, `app/profile/`, `app/settings/`, `app/subscriptions/`, `app/welcome/`
 - `app/api/auth/`, `app/api/channels/`, `app/api/notifications/`, `app/api/users/`
 - `app/layout.tsx`, `middleware.ts`, `prisma/`, `Dockerfile`, `docker-compose.yml`, `.github/workflows/`
@@ -42,7 +42,7 @@ One repo, one project. Each member owns their folders. Shared files go through t
 - `app/api/feed/`, `app/api/search/`, `app/api/playlists/`
 - `components/layout/`, `components/search/`, `components/playlist/`, `components/shorts/`, `components/ui/`
 - `components/video/VideoCard.tsx`, `components/video/VideoGrid.tsx`
-- `services/` (`search`, `recommendation`, `playlist`), `context/`, `lib/mockData.ts`
+- `server/search.service.ts`, `server/recommendation.service.ts`, `server/playlist.service.ts`, `context/`, `lib/mockData.ts`
 - `types/index.ts`, `app/discovery.css`
 
 ## Shared files (change only after telling the owner)
@@ -54,9 +54,9 @@ One repo, one project. Each member owns their folders. Shared files go through t
 
 ## Known leftovers to clean up
 
-- M4 has loose copies at the repo root: `playlist.service.ts`, `recommendation.service.ts`, `search.service.ts`. The real ones are in `services/`.
 - `components/layout/` (M4's Header and Sidebar) is not used. The app uses M1's `src/components/organisms/Navbar` and `Sidebar`.
 - `app/page.tsx` was moved to `app/welcome/page.tsx` because M4's `app/(main)/page.tsx` also serves `/`.
+- M1's components still live in `src/components/`, not the planned `components/layout/` and `components/channel/`.
 - M3 `server/` files use in-memory data until M1's Prisma schema is wired in.
 
 Check who last changed a folder: `git log --format="%an | %s" -- <path>`

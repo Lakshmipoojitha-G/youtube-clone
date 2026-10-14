@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { RecommendationService } from '@/services/recommendation.service';
+import { RecommendationService } from '@/server/recommendation.service';
 import { VideoCategory } from '@/types';
 
 export const dynamic = 'force-dynamic';
