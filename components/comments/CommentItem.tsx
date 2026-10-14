@@ -33,22 +33,30 @@ export default function CommentItem({ comment, replies, videoId, onCreated, onDe
 
   return (
     <div className="flex gap-3">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-300 text-sm font-semibold text-black">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 text-sm font-semibold text-white shadow">
         {comment.author[0].toUpperCase()}
       </div>
-      <div className="flex-1">
-        <p className="text-sm">
-          <span className="font-semibold">@{comment.author}</span>{" "}
-          <span className="text-gray-500">{new Date(comment.createdAt).toLocaleString()}</span>
+      <div className="flex-1 min-w-0">
+        <p className="text-xs text-neutral-400">
+          <span className="font-semibold text-white text-sm">@{comment.author}</span>{" "}
+          <span>{new Date(comment.createdAt).toLocaleDateString()}</span>
         </p>
-        <p className="text-sm">{comment.text}</p>
-        <div className="mt-1 flex items-center gap-3 text-sm text-gray-600">
-          <button onClick={like} className={liked ? "text-blue-600" : ""}>👍 {likes}</button>
-          {!comment.parentId && <button onClick={() => setReplying(true)}>Reply</button>}
-          <button onClick={remove}>Delete</button>
+        <p className="text-sm text-neutral-200 mt-1">{comment.text}</p>
+        <div className="mt-2 flex items-center gap-4 text-xs font-medium text-neutral-400">
+          <button onClick={like} className={`hover:text-white transition flex items-center gap-1 ${liked ? "text-blue-400 font-semibold" : ""}`}>
+            👍 {likes > 0 && likes}
+          </button>
+          {!comment.parentId && (
+            <button onClick={() => setReplying(true)} className="hover:text-white transition">
+              Reply
+            </button>
+          )}
+          <button onClick={remove} className="hover:text-red-400 transition">
+            Delete
+          </button>
         </div>
         {replying && (
-          <div className="mt-2">
+          <div className="mt-3 pl-2 border-l border-white/10">
             <CommentForm
               videoId={videoId}
               parentId={comment.id}
@@ -62,7 +70,7 @@ export default function CommentItem({ comment, replies, videoId, onCreated, onDe
           </div>
         )}
         {replies.length > 0 && (
-          <div className="mt-3 flex flex-col gap-3">
+          <div className="mt-3 pl-4 border-l border-white/10 flex flex-col gap-3">
             {replies.map((r) => (
               <CommentItem key={r.id} comment={r} replies={[]} videoId={videoId} onCreated={onCreated} onDeleted={onDeleted} />
             ))}

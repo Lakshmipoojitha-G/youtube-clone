@@ -23,13 +23,13 @@ export default function LikeButtons({ videoId, likes, dislikes, initial }: Props
     if (res.ok) setState(await res.json());
   }
 
-  const base = "px-4 py-2 text-sm font-medium transition hover:bg-gray-200";
+  const base = "px-4 py-2 text-sm font-medium transition hover:bg-white/10";
   return (
-    <div className="inline-flex overflow-hidden rounded-full bg-gray-100 text-black">
-      <button onClick={() => react("like")} className={`${base} ${state.reaction === "like" ? "bg-blue-100 text-blue-700" : ""}`}>
+    <div className="inline-flex overflow-hidden rounded-full bg-white/10 text-white">
+      <button onClick={() => react("like")} className={`${base} ${state.reaction === "like" ? "bg-blue-600/30 text-blue-400 font-semibold" : ""}`}>
         👍 {state.likes}
       </button>
-      <button onClick={() => react("dislike")} className={`${base} border-l border-gray-300 ${state.reaction === "dislike" ? "bg-red-100 text-red-700" : ""}`}>
+      <button onClick={() => react("dislike")} className={`${base} border-l border-white/10 ${state.reaction === "dislike" ? "bg-red-600/30 text-red-400 font-semibold" : ""}`}>
         👎 {state.dislikes}
       </button>
     </div>

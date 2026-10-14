@@ -1,4 +1,5 @@
 import type { Video } from "@/types/video";
+import { MOCK_VIDEOS } from "@/lib/mockData";
 
 // Temporary seed data until Member 1's Prisma schema + prisma/seed.ts land.
 const BASE = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample";
@@ -23,4 +24,17 @@ export const SEED_VIDEOS: Video[] = [
   make("3", "Sintel", "Sintel.mp4", "Sintel.jpg", 22010),
   make("4", "Tears of Steel", "TearsOfSteel.mp4", "TearsOfSteel.jpg", 5400),
   make("5", "For Bigger Blazes", "ForBiggerBlazes.mp4", "ForBiggerBlazes.jpg", 980),
+  ...MOCK_VIDEOS.map((mv) => ({
+    id: mv.id,
+    title: mv.title,
+    description: mv.description,
+    videoUrl: mv.videoUrl || `${BASE}/BigBuckBunny.mp4`,
+    thumbnailUrl: mv.thumbnailUrl,
+    channelName: mv.channel.name,
+    channelHandle: mv.channel.name.toLowerCase().replace(/[^a-z0-9]/g, ""),
+    views: mv.views,
+    likes: mv.likes,
+    dislikes: 0,
+    createdAt: mv.uploadedAt,
+  })),
 ];

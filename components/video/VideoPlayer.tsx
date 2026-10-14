@@ -18,11 +18,11 @@ export default function VideoPlayer({ videoId, src, poster, startAt = 0 }: Props
     const video = ref.current;
     if (!video) return;
     let hls: Hls | undefined;
-    if (src.endsWith(".m3u8") && Hls.isSupported()) {
+    if (src && src.endsWith(".m3u8") && Hls.isSupported()) {
       hls = new Hls();
       hls.loadSource(src);
       hls.attachMedia(video);
-    } else {
+    } else if (src) {
       video.src = src;
     }
     const onMeta = () => {

@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./discovery.css";
+import { AppProvider } from "@/context/AppContext";
+import { SaveToPlaylistModal } from "@/components/playlist/SaveToPlaylistModal";
+import { CreatePlaylistModal } from "@/components/playlist/CreatePlaylistModal";
+import { Toast } from "@/components/ui/Toast";
 import { ThemeProvider } from "next-themes";
 import MainLayout from "@/src/components/templates/MainLayout";
 import SessionProvider from "@/src/components/providers/SessionProvider";
@@ -20,7 +25,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-950 text-white`}>
         <SessionProvider>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            <MainLayout>{children}</MainLayout>
+            <AppProvider>
+              <MainLayout>{children}</MainLayout>
+              <SaveToPlaylistModal />
+              <CreatePlaylistModal />
+              <Toast />
+            </AppProvider>
           </ThemeProvider>
         </SessionProvider>
       </body>
