@@ -31,7 +31,10 @@ export const Sidebar: React.FC = () => {
   ];
 
   const libraryLinks = [
-    { label: 'History', href: '/feed/history', icon: History },
+    { label: 'Your Profile', href: '/profile', icon: History },
+    { label: 'Create Channel', href: '/settings/channel', icon: Tv },
+    { label: 'Subscriptions', href: '/subscriptions', icon: ListVideo },
+    { label: 'History', href: '/feed/history', icon: Clock },
     { label: 'Liked Videos', href: '/feed/liked', icon: ThumbsUp },
     { label: 'Playlists', href: '/playlist', icon: ListVideo },
     { label: 'Trending', href: '/feed/trending', icon: Flame },

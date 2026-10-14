@@ -15,8 +15,19 @@ export async function POST(req: Request) {
   const userId = newId();
   const now = new Date().toISOString();
 
-  store.users.set(userId, { id: userId, name: name ?? "New User", email, passwordHash, createdAt: now });
+  const user = { id: userId, name: name ?? "New User", email, passwordHash, createdAt: now };
+  store.users.set(userId, user);
   store.usersByEmail.set(email, userId);
 
-  return NextResponse.json({ id: userId }, { status: 201 });
+  const token = newId();
+  store.sessions.set(token, userId);
+
+  const res = NextResponse.json({ id: userId, ok: true }, { status: 201 });
+  res.cookies.set("yt_session", token, {
+    httpOnly: true,
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7,
+    sameSite: "lax",
+  });
+  return res;
 }
