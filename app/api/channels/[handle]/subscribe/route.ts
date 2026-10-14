@@ -5,7 +5,8 @@ import { authOptions } from "@/src/lib/auth";
 import { prisma } from "@/src/lib/prisma";
 
 // POST - subscribe to channel
-export async function POST(_: Request, { params }: { params: { handle: string } }) {
+export async function POST(_: Request, props: { params: Promise<{ handle: string }> }) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
@@ -32,7 +33,8 @@ export async function POST(_: Request, { params }: { params: { handle: string } 
 }
 
 // DELETE - unsubscribe
-export async function DELETE(_: Request, { params }: { params: { handle: string } }) {
+export async function DELETE(_: Request, props: { params: Promise<{ handle: string }> }) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
