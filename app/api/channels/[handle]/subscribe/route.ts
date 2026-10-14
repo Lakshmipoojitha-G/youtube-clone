@@ -5,11 +5,11 @@ import { authOptions } from "@/src/lib/auth";
 import { prisma } from "@/src/lib/prisma";
 
 // POST - subscribe to channel
-export async function POST(_: Request, { params }: { params: { handle: string } }) {
+export async function POST(_: Request, { params }: { params: Promise<{ handle: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const channel = await prisma.channel.findUnique({ where: { handle: params.handle } });
+  const channel = await prisma.channel.findUnique({ where: { handle: (await params).handle } });
   if (!channel) return NextResponse.json({ error: "Channel not found" }, { status: 404 });
 
   const sub = await prisma.subscription.upsert({
@@ -32,11 +32,11 @@ export async function POST(_: Request, { params }: { params: { handle: string } 
 }
 
 // DELETE - unsubscribe
-export async function DELETE(_: Request, { params }: { params: { handle: string } }) {
+export async function DELETE(_: Request, { params }: { params: Promise<{ handle: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const channel = await prisma.channel.findUnique({ where: { handle: params.handle } });
+  const channel = await prisma.channel.findUnique({ where: { handle: (await params).handle } });
   if (!channel) return NextResponse.json({ error: "Channel not found" }, { status: 404 });
 
   await prisma.subscription.deleteMany({

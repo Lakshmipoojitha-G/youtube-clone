@@ -10,7 +10,7 @@ export default function SearchBar() {
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
-    if (query.trim()) router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+    if (query.trim()) router.push(`/results?q=${encodeURIComponent(query.trim())}`);
   }
 
   return (

@@ -7,14 +7,14 @@ import { cn } from "@/src/lib/utils";
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/trending", label: "Trending", icon: Flame },
+  { href: "/feed/trending", label: "Trending", icon: Flame },
   { href: "/subscriptions", label: "Subscriptions", icon: PlaySquare },
 ];
 
 const libraryItems = [
-  { href: "/history", label: "History", icon: History },
-  { href: "/liked", label: "Liked videos", icon: ThumbsUp },
-  { href: "/playlists", label: "Playlists", icon: ListVideo },
+  { href: "/feed/history", label: "History", icon: History },
+  { href: "/feed/liked", label: "Liked videos", icon: ThumbsUp },
+  { href: "/playlist", label: "Playlists", icon: ListVideo },
 ];
 
 interface SidebarProps {
