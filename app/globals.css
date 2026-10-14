@@ -236,3 +236,24 @@ textarea {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Watch Page and Video Player Layout Styles */
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.watch-page-container {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 1080px) {
+  .watch-page-container {
+    grid-template-columns: 1fr 380px;
+  }
+}
+

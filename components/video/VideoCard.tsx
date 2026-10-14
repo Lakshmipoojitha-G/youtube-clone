@@ -52,7 +52,8 @@ export const VideoCard: React.FC<VideoCardProps> = ({
     e.preventDefault();
     e.stopPropagation();
     setMenuOpen(false);
-    navigator.clipboard.writeText(video.videoUrl || window.location.href);
+    const watchUrl = typeof window !== 'undefined' ? `${window.location.origin}/watch/${video.id}` : `/watch/${video.id}`;
+    navigator.clipboard.writeText(watchUrl);
     showToast('Video link copied to clipboard!');
   };
 
@@ -88,9 +89,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
       >
         {/* Thumbnail */}
         <Link 
-          href={video.videoUrl || '#'} 
-          target="_blank" 
-          rel="noopener noreferrer"
+          href={`/watch/${video.id}`}
           style={{ position: 'relative', flexShrink: 0, width: '360px', aspectRatio: '16/9', borderRadius: '12px', overflow: 'hidden', backgroundColor: '#1e1e1e' }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -121,9 +120,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <Link 
-              href={video.videoUrl || '#'} 
-              target="_blank" 
-              rel="noopener noreferrer"
+              href={`/watch/${video.id}`}
               style={{
                 fontSize: '18px',
                 fontWeight: 500,
@@ -277,9 +274,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
 
         {/* Thumbnail */}
         <Link
-          href={video.videoUrl || '#'}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={`/watch/${video.id}`}
           style={{
             position: 'relative',
             width: '120px',
@@ -313,9 +308,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         {/* Details */}
         <div style={{ flex: 1, minWidth: 0 }}>
           <Link
-            href={video.videoUrl || '#'}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`/watch/${video.id}`}
             style={{ fontSize: '14px', fontWeight: 500, color: '#f1f1f1', lineHeight: '20px' }}
             className="line-clamp-2"
           >
@@ -367,9 +360,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
     }}>
       {/* Thumbnail */}
       <Link
-        href={video.videoUrl || '#'}
-        target="_blank"
-        rel="noopener noreferrer"
+        href={`/watch/${video.id}`}
         style={{
           position: 'relative',
           width: '100%',
@@ -437,9 +428,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         {/* Title & Info */}
         <div style={{ flex: 1, minWidth: 0 }}>
           <Link
-            href={video.videoUrl || '#'}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`/watch/${video.id}`}
             style={{
               fontSize: '15px',
               fontWeight: 500,

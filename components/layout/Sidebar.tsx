@@ -16,6 +16,8 @@ import {
   ChevronRight,
   Radio,
   Sparkles,
+  History,
+  ThumbsUp,
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
@@ -29,6 +31,8 @@ export const Sidebar: React.FC = () => {
   ];
 
   const libraryLinks = [
+    { label: 'History', href: '/feed/history', icon: History },
+    { label: 'Liked Videos', href: '/feed/liked', icon: ThumbsUp },
     { label: 'Playlists', href: '/playlist', icon: ListVideo },
     { label: 'Trending', href: '/feed/trending', icon: Flame },
   ];
