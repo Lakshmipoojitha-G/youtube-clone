@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import { Menu, Plus, Bell, LogIn, User, Settings, LogOut, Check } from 'lucide-react';
 import { SearchAutocomplete } from '../search/SearchAutocomplete';
 import { useApp } from '@/context/AppContext';
@@ -85,7 +86,7 @@ export const Header: React.FC = () => {
 
   async function handleSignOut() {
     try {
-      await fetch('/api/auth/signout', { method: 'POST' });
+      await signOut({ redirect: false });
       setUser(null);
       setIsProfileOpen(false);
       router.push('/auth/signin');
