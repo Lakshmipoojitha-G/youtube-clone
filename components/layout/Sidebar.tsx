@@ -18,6 +18,7 @@ import {
   Sparkles,
   History,
   ThumbsUp,
+  Clapperboard,
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
@@ -38,6 +39,7 @@ export const Sidebar: React.FC = () => {
     { label: 'Liked Videos', href: '/feed/liked', icon: ThumbsUp },
     { label: 'Playlists', href: '/playlist', icon: ListVideo },
     { label: 'Trending', href: '/feed/trending', icon: Flame },
+    { label: 'Your Studio', href: '/studio', icon: Clapperboard },
   ];
 
   const exploreLinks = [
@@ -109,6 +111,27 @@ export const Sidebar: React.FC = () => {
           <ListVideo size={20} />
           <span style={{ fontSize: '10px' }}>Playlists</span>
         </Link>
+
+        {/* NEW: Studio link */}
+        <Link
+          href="/studio"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '12px 4px',
+            width: '64px',
+            borderRadius: '10px',
+            backgroundColor: pathname.startsWith('/studio') ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+            color: pathname.startsWith('/studio') ? '#fff' : '#aaa',
+          }}
+          title="Your Studio"
+        >
+          <Clapperboard size={20} />
+          <span style={{ fontSize: '10px' }}>Studio</span>
+        </Link>
+        
       </aside>
     );
   }
