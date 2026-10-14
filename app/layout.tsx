@@ -6,7 +6,7 @@ import { AppProvider } from "@/context/AppContext";
 import { SaveToPlaylistModal } from "@/components/playlist/SaveToPlaylistModal";
 import { CreatePlaylistModal } from "@/components/playlist/CreatePlaylistModal";
 import { Toast } from "@/components/ui/Toast";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "@/src/components/providers/ThemeProvider";
 import MainLayout from "@/src/components/templates/MainLayout";
 import SessionProvider from "@/src/components/providers/SessionProvider";
 
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head />
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-950 text-white`}>
         <SessionProvider>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <ThemeProvider>
             <AppProvider>
               <MainLayout>{children}</MainLayout>
               <SaveToPlaylistModal />

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Moon, Sun, Upload, User, LogOut, Settings, Menu } from "lucide-react";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/src/components/providers/ThemeProvider";
 import { useState } from "react";
 import Avatar from "@/src/components/atoms/Avatar";
 import SearchBar from "@/src/components/molecules/SearchBar";
